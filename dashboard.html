@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Resumo de Vendas</h1>
+  <p><strong>Faturamento:</strong> R$ {{ faturamento }}</p>
+  <p><strong>Lucro líquido (estimado):</strong> R$ {{ lucro }}</p>
+  <p><strong>Vendas finalizadas:</strong> {{ vendas }}</p>
+  <p><strong>Oportunidades abertas:</strong> {{ oportunidades }}</p>
+
+  <h2>Vendas por Criativo</h2>
+  <canvas id="criativosChart"></canvas>
+
+  <h2>Vendas por Origem</h2>
+  <canvas id="origensChart"></canvas>
+
+  <script>
+    const criativosData = {
+      labels: {{ criativos.keys() | list | tojson }},
+      datasets: [{
+        label: 'Vendas por Criativo',
+        data: {{ criativos.values() | list | tojson }},
+        backgroundColor: 'rgba(54, 162, 235, 0.6)'
+      }]
+    };
+    const origensData = {
+      labels: {{ origens.keys() | list | tojson }},
+      datasets: [{
+        label: 'Vendas por Origem',
+        data: {{ origens.values() | list | tojson }},
+        backgroundColor: 'rgba(255, 99, 132, 0.6)'
+      }]
+    };
+    new Chart(document.getElementById('criativosChart'), { type: 'bar', data: criativosData });
+    new Chart(document.getElementById('origensChart'), { type: 'bar', data: origensData });
+  </script>
+</body>
+</html>
